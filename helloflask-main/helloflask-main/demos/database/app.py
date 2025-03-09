@@ -11,10 +11,10 @@ import sys
 import click
 from flask import Flask
 from flask import redirect, url_for, abort, render_template, flash
-from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, TextAreaField
 from wtforms.validators import DataRequired
+from flask_sqlalchemy import SQLAlchemy
 
 # SQLite URI compatible
 WIN = sys.platform.startswith('win')
@@ -132,8 +132,8 @@ class Author(db.Model):
     articles = db.relationship('Article')  # collection
 
     def __repr__(self):
-        return '<Author %r>' % self.name
-
+        # return '<Author %r>' % self.name
+        return f'<Author {self.name!r}>'
 
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -142,8 +142,8 @@ class Article(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('author.id'))
 
     def __repr__(self):
-        return '<Article %r>' % self.title
-
+        # return '<Article %r>' % self.title
+        return f'<Article {self.title!r}>'
 
 # many to one
 class Citizen(db.Model):
@@ -153,16 +153,16 @@ class Citizen(db.Model):
     city = db.relationship('City')  # scalar
 
     def __repr__(self):
-        return '<Citizen %r>' % self.name
-
+        # return '<Citizen %r>' % self.name
+        return f'<Citizen {self.name!r}>'
 
 class City(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), unique=True)
 
     def __repr__(self):
-        return '<City %r>' % self.name
-
+        # return '<City %r>' % self.name
+        return f'<City {self.name!r}>'
 
 # one to one
 class Country(db.Model):
@@ -171,8 +171,8 @@ class Country(db.Model):
     capital = db.relationship('Capital', back_populates='country', uselist=False)  # collection -> scalar
 
     def __repr__(self):
-        return '<Country %r>' % self.name
-
+        # return '<Country %r>' % self.name
+        return f'<Country {self.name!r}>'
 
 class Capital(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -181,8 +181,8 @@ class Capital(db.Model):
     country = db.relationship('Country', back_populates='capital')  # scalar
 
     def __repr__(self):
-        return '<Capital %r>' % self.name
-
+        # return '<Capital %r>' % self.name
+        return f'<Capital {self.name!r}>'
 
 # many to many with association table
 association_table = db.Table('association',
@@ -200,8 +200,8 @@ class Student(db.Model):
                                back_populates='students')  # collection
 
     def __repr__(self):
-        return '<Student %r>' % self.name
-
+        # return '<Student %r>' % self.name
+        return f'<Student {self.name!r}>'
 
 class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -212,8 +212,8 @@ class Teacher(db.Model):
                                back_populates='teachers')  # collection
 
     def __repr__(self):
-        return '<Teacher %r>' % self.name
-
+        # return '<Teacher %r>' % self.name
+        return f'<Teacher {self.name!r}>'
 
 # one to many + bidirectional relationship
 class Writer(db.Model):
@@ -222,8 +222,8 @@ class Writer(db.Model):
     books = db.relationship('Book', back_populates='writer')
 
     def __repr__(self):
-        return '<Writer %r>' % self.name
-
+        # return '<Writer %r>' % self.name
+        return f'<Writer {self.name!r}>'
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -232,8 +232,8 @@ class Book(db.Model):
     writer = db.relationship('Writer', back_populates='books')
 
     def __repr__(self):
-        return '<Book %r>' % self.name
-
+        # return '<Book %r>' % self.name
+        return f'<Book {self.name!r}>'
 
 # one to many + bidirectional relationship + use backref to declare bidirectional relationship
 class Singer(db.Model):
